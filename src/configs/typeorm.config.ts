@@ -19,7 +19,6 @@ export const typeOrmConfig = (
     port: parseInt(configService.get<string>('DB_PORT') || '5432', 10),
     username: configService.get<string>('DB_USER'),
     password: configService.get<string>('DB_PASS'),
-    // database: configService.get<string>('DB_NAME'),
     database: isTest
       ? configService.get<string>('DB_TEST_NAME')
       : configService.get<string>('DB_NAME'),
@@ -32,7 +31,6 @@ export const typeOrmConfig = (
 
 ConfigModule.forRoot({
   isGlobal: true,
-  envFilePath: process.env.NODE_ENV === 'test' ? '.env.test' : '.env',
 });
 const cliConfigService = new ConfigService();
 const isCliTest = isTestEnvironment();

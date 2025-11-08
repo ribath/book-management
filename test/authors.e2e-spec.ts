@@ -12,10 +12,12 @@ import { AppModule } from '../src/app.module';
 import { DataSource } from 'typeorm';
 import { AllExceptionsFilter } from '../src/common/filters/all-exceptions.filter';
 import { ResponseInterceptor } from '../src/common/interceptors/response.interceptor';
+import { TransactionHelper } from './helpers/transaction.helper';
 
 describe('Authors (e2e)', () => {
   let app: INestApplication;
   let dataSource: DataSource;
+  let transaction: TransactionHelper;
   let createdAuthorId: string;
 
   beforeAll(async () => {
@@ -52,11 +54,13 @@ describe('Authors (e2e)', () => {
     await dataSource.synchronize();
   });
 
-  afterAll(async () => {
-    if (dataSource) {
-      await dataSource.dropDatabase();
-    }
-    await app.close();
+  beforeEach(async () => {
+    transaction = new TransactionHelper(dataSource);
+    await transaction.start();
+  });
+
+  afterEach(async () => {
+    await transaction.rollback();
   });
 
   describe('POST /authors', () => {
