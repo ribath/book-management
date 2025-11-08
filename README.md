@@ -80,5 +80,7 @@ Once the application is running, you can access:
 
 ## Sharing some insights on the task
 
-1. Intentionally turned off entity synchronization and used migration, because its unreliable in production environment.  
-2. Swagger is not implemented with 100% attention. I installed it just to introduce some level of documentation. 
+1. I have used PostgreSQL for this project because for this task choosing a relational database seemed like the better choice. And I feel more comfortable working with relational databases as I have more experience on them.
+2. Entity synchronization has been intentionally disabled in favor of migrations, as synchronization is unreliable and not recommended for production environments.
+3. Swagger has been implemented at a basic level to provide foundational API documentation.
+4. For Author deletion, soft delete would typically be the preferred approach. However, due to uncertainty about handling associated books (whether to orphan them, reassign them, or delete them as well), I opted for cascade deletion instead. This ensures referential integrity.
